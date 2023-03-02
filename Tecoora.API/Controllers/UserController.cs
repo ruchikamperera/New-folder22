@@ -44,6 +44,27 @@ namespace Tecoora.API.Controllers
         }
 
         [Produces("application/json")]
+        [HttpGet, Route("testAPI/{id:int}")]
+        public async Task<ApiResponse> testAPIByRuchika(int id)
+        {
+            ApiResponse apiResponse = new ApiResponse();
+            try
+            {
+                var result = await _userService.getUserById(id);
+                var mappedResult = _mapper.Map<UserDto>(result);
+                apiResponse.Data = mappedResult;
+                apiResponse.Success = true;
+            }
+            catch (Exception ex)
+            {
+                apiResponse.Error = ex.Message;
+                apiResponse.Success = false;
+            }
+
+            return apiResponse;
+        }
+
+        [Produces("application/json")]
         [HttpGet, Route("users/{id:int}")]
         public async Task<ApiResponse> usersById(int id)
         {
